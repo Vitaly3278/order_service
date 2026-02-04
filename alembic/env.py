@@ -11,7 +11,7 @@ sys.path.append(str(BASE_DIR))
 
 try:
     from app.database import Base, DATABASE_URL
-    from app import models  # Это нужно, чтобы SQLAlchemy увидел модели
+    from app import models
 except ImportError as e:
     print(f"Import error: {e}")
     print("Make sure you have app.database and app.models modules")

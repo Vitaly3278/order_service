@@ -27,3 +27,4 @@ def health():
 @app.get("/")
 def root():
     return {"message": "Order Service API"}
+

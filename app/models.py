@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, DateTime
 from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy.sql import func
-from database import Base
+from app.database import Base
 
 
 class Nomenclature(Base):

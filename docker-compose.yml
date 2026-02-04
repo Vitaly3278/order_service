@@ -2,20 +2,40 @@ version: '3.8'
 services:
   db:
     image: postgres:15-alpine
+    container_name: postgres_db  # Добавил явное имя
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: order_db
+      POSTGRES_DB: orderdb
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Добавил том для данных
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    restart: unless-stopped
+    depends_on:
+      - db  # Исправил с postgres на db
 
   app:
     build: .
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgresql://user:password@db:5432/order_db
+      DATABASE_URL: postgresql://user:password@db:5432/orderdb
     ports:
       - "8000:8000"
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
 
+volumes:
+  postgres_data:
+  pgadmin_data:
