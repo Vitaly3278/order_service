@@ -49,8 +49,8 @@ def run_migrations_online() -> None:
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            compare_type=True,  # Сравнивать типы колонок
-            compare_server_default=True  # Сравнивать значения по умолчанию
+            compare_type=True,
+            compare_server_default=True
         )
 
         with context.begin_transaction():

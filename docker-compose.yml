@@ -2,7 +2,7 @@ version: '3.8'
 services:
   db:
     image: postgres:15-alpine
-    container_name: postgres_db  # Добавил явное имя
+    container_name: postgres_db
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # Добавил том для данных
+      - postgres_data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4:latest

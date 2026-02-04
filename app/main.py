@@ -4,7 +4,6 @@ from app.services import add_item_to_order
 from app.database import engine
 from app.models import Base
 
-# Создаем таблицы при запуске (резервный вариант)
 try:
     Base.metadata.create_all(bind=engine)
     print("Таблицы созданы или уже существуют")
