@@ -1,7 +1,9 @@
+# Базовая настройка SQLAlchemy
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.orm import sessionmaker,DeclarativeBase
+import os
 
-DATABASE_URL = "postgresql+psycopg2://user:password@db:5432/orderdb"
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost/order_db")
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
