@@ -1,28 +1,38 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Numeric
+from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, DateTime
+from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy.sql import func
-from sqlalchemy.orm import declarative_base
+from database import Base
 
-Base = declarative_base()
 
 class Nomenclature(Base):
     __tablename__ = "nomenclature"
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False)
-    quantity = Column(Integer, nullable=False)
-    price = Column(Numeric(10, 2), nullable=False)
+    id = mapped_column(Integer, primary_key=True, index=True)
+    name = mapped_column(String(255))
+    quantity = mapped_column(Integer)
+    price = mapped_column(Numeric(10, 2))
+
+    order_items = relationship("OrderItem", back_populates="nomenclature")
+
 
 class Order(Base):
     __tablename__ = "orders"
 
-    id = Column(Integer, primary_key=True)
-    client_id = Column(Integer, nullable=False)
-    created_at = Column(DateTime, default=func.now())
+    id = mapped_column(Integer, primary_key=True, index=True)
+    client_id = mapped_column(Integer)
+    created_at = mapped_column(DateTime, server_default=func.now())
+
+    items = relationship("OrderItem", back_populates="order")
+
 
 class OrderItem(Base):
     __tablename__ = "order_items"
 
-    id = Column(Integer, primary_key=True)
-    order_id = Column(Integer, ForeignKey("orders.id"), nullable=False)
-    nomenclature_id = Column(Integer, ForeignKey("nomenclature.id"), nullable=False)
-    quantity = Column(Integer, nullable=False)
+    id = mapped_column(Integer, primary_key=True, index=True)
+    order_id = mapped_column(Integer, ForeignKey('orders.id'))
+    nomenclature_id = mapped_column(Integer, ForeignKey('nomenclature.id'))
+    quantity = mapped_column(Integer)
+
+    order = relationship("Order", back_populates="items")
+    nomenclature = relationship("Nomenclature", back_populates="order_items")
+
