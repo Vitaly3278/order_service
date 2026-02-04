@@ -1,9 +1,7 @@
 from app.models import Nomenclature, Order, OrderItem
 from app.database import SessionLocal
 from sqlalchemy.exc import SQLAlchemyError
-
 from app.schemas import AddItemRequest, AddItemResponse
-
 
 def add_item_to_order(request: AddItemRequest):
     db = SessionLocal()
